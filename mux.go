@@ -60,6 +60,7 @@ func (m *Mux) Handle(c net.Conn) error {
 	buf := &bufConn{Conn: &Conn{Conn: c}}
 	for _, p := range m.protos {
 		if p.Matches(buf) {
+			buf.Reset()
 			return p.Handle(buf.Conn)
 		}
 		buf.Reset()

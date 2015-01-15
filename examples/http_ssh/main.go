@@ -29,13 +29,13 @@ func main() {
 	}
 
 	protos := []tcpmux.Proto{
-		tcpmux.NetPipe{Network: "tcp", Address: sshAddr},
+		tcpmux.SSH{tcpmux.NetPipe{Network: "tcp", Address: sshAddr}},
 	}
 	if httpAddr != "" {
 		protos = append(protos, tcpmux.NetPipe{Network: "tcp", Address: httpAddr})
 	}
 
-	m := tcpmux.New(l, tcpmux.SSH{tcpmux.NetPipe{Network: "tcp", Address: sshAddr}})
+	m := tcpmux.New(l, protos...)
 
 	if httpAddr != "" {
 		for {
