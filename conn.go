@@ -6,6 +6,13 @@ import (
 
 type bufConn struct {
 	*Conn
+
+	buf []byte
+}
+
+func (br *bufConn) Reset() {
+	br.Conn.buf = append(br.buf, br.Conn.buf...)
+	br.buf = nil
 }
 
 func (br *bufConn) Read(p []byte) (n int, err error) {
@@ -22,12 +29,10 @@ type Conn struct {
 
 func (r *Conn) Read(p []byte) (n int, err error) {
 	if len(r.buf) > 0 {
-		if len(p) < len(r.buf) {
-			n = copy(p, r.buf)
+		n = copy(p, r.buf)
+		if n <= len(r.buf) {
 			r.buf = r.buf[n:]
-			return
 		} else {
-			n = copy(p, r.buf)
 			r.buf = nil
 		}
 	}

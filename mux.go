@@ -57,11 +57,12 @@ func (m *Mux) Addr() net.Addr {
 }
 
 func (m *Mux) Handle(c net.Conn) error {
-	buf := &bufConn{&Conn{Conn: c}}
+	buf := &bufConn{Conn: &Conn{Conn: c}}
 	for _, p := range m.protos {
 		if p.Matches(buf) {
 			return p.Handle(buf.Conn)
 		}
+		buf.Reset()
 	}
 	if m.Default != nil {
 		return m.Default.Handle(buf.Conn)
