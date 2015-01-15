@@ -1,6 +1,8 @@
 tcpmux
 ======
 
+[![Build Status](https://drone.io/github.com/beatgammit/tcpmux/status.png)](https://drone.io/github.com/beatgammit/tcpmux/latest)
+
 `tcpmux` is a TCP multiplexer and enables running multiple services on the same port by sniffing the first few bytes of incoming connections and forwarding them onto other services.
 
 Once common use-case is running both an HTTP server and an SSH server on the same port.
